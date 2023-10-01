@@ -1,0 +1,28 @@
+function maxProfit(prices) {
+  if (!prices || prices.length < 2) {
+    return 0;
+  }
+
+  const n = prices.length;
+  const buy1 = new Array(n).fill(0);
+  const sell1 = new Array(n).fill(0);
+  const buy2 = new Array(n).fill(0);
+  const sell2 = new Array(n).fill(0);
+
+  buy1[0] = -prices[0];
+  buy2[0] = -prices[0];
+
+  for (let i = 1; i < n; i++) {
+    buy1[i] = Math.max(buy1[i - 1], -prices[i]);
+    sell1[i] = Math.max(sell1[i - 1], buy1[i - 1] + prices[i]);
+    buy2[i] = Math.max(buy2[i - 1], sell1[i - 1] - prices[i]);
+    sell2[i] = Math.max(sell2[i - 1], buy2[i - 1] + prices[i]);
+  }
+
+  return sell2[n - 1];
+}
+
+// Example usage:
+const prices = [3, 3, 5, 0, 0, 3, 1, 4];
+const maxProfitValue = maxProfit(prices);
+console.log(`Maximum profit: ${maxProfitValue}`);
